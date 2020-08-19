@@ -113,3 +113,9 @@ ON (public."Dept_Empt"."Dept_Number" = public."Department"."Dept_Number");
 
 
 --5. List first name, last name, and sex for employees whose first name is "Hercules" and last names begin with "B."
+SELECT public."Employees"."Last_Name",
+public."Employees"."First_Name",
+public."Employees"."Sex"
+FROM public."Employees"
+WHERE public."Employees"."First_Name" = 'Hercules'
+AND public."Employees"."Last_Name" LIKE 'W%';
