@@ -72,15 +72,16 @@ REFERENCES "Employees" ("Emp_Number");
 --employee number, last name, first name, sex, and salary.
 -- First select employee number, first name, last name, sex from employees table
 
-SELECT public."Employees"."Emp_Number", public."Employees"."First_Name", public."Employees"."Last_Name", public."Employees"."Sex", public."Salaries"."Salary"
-FROM public."Employees"
+SELECT "Employees"."Emp_Number", "Employees"."First_Name", "Employees"."Last_Name", "Employees"."Sex", "Salaries"."Salary"
+FROM "Employees"
 JOIN public."Salaries"
-ON (public."Employees"."Emp_Number" = public."Salaries"."Emp_Number");
+ON ("Employees"."Emp_Number" = "Salaries"."Emp_Number");
+
 
 -- . 2. List first name, last name, and hire date for 
 --employees who were hired in 1986.
-SELECT public."Employees"."First_Name", public."Employees"."Last_Name", public."Employees"."Sex", public."Employees"."hire_date"
-FROM public."Employees"
+SELECT "Employees"."First_Name", "Employees"."Last_Name", "Employees"."Sex", "Employees"."hire_date"
+FROM "Employees"
 WHERE hire_date > '1985-12-31'
 AND hire_date < '1987-01-01';
 
@@ -88,34 +89,56 @@ AND hire_date < '1987-01-01';
 --following information: department number, 
 --department name, the manager's employee number, 
 --last name, first name.
-SELECT public."Dept_Manager"."Dept_Number", 
-public."Dept_Manager"."Emp_Number", 
-public."Employees"."Last_Name",
-public."Employees"."First_Name",
-public."Department"."Dept_Name"
-FROM public."Dept_Manager"
-JOIN public."Employees"
-ON (public."Employees"."Emp_Number" = public."Dept_Manager"."Emp_Number")
-JOIN public."Department"
-ON (public."Department"."Dept_Number" = public."Dept_Manager"."Dept_Number");
+SELECT "Dept_Manager"."Dept_Number", 
+"Dept_Manager"."Emp_Number", 
+"Employees"."Last_Name",
+"Employees"."First_Name",
+"Department"."Dept_Name"
+FROM "Dept_Manager"
+JOIN "Employees"
+ON ("Employees"."Emp_Number" = "Dept_Manager"."Emp_Number")
+JOIN "Department"
+ON ("Department"."Dept_Number" = "Dept_Manager"."Dept_Number");
 
 --List the department of each employee with the following information: 
 --employee number, last name, first name, and department name.
-SELECT public."Department"."Dept_Name",
+SELECT "Department"."Dept_Name",
 public."Employees"."Emp_Number",
 public."Employees"."Last_Name",
 public."Employees"."First_Name"
-FROM public."Employees"
-JOIN public."Dept_Empt"
-ON (public."Dept_Empt"."Emp_Number" = public."Employees"."Emp_Number")
-JOIN public."Department"
-ON (public."Dept_Empt"."Dept_Number" = public."Department"."Dept_Number");
+FROM "Employees"
+JOIN "Dept_Empt"
+ON ("Dept_Empt"."Emp_Number" = "Employees"."Emp_Number")
+JOIN "Department"
+ON ("Dept_Empt"."Dept_Number" = "Department"."Dept_Number");
 
 
 --5. List first name, last name, and sex for employees whose first name is "Hercules" and last names begin with "B."
-SELECT public."Employees"."Last_Name",
-public."Employees"."First_Name",
-public."Employees"."Sex"
-FROM public."Employees"
-WHERE public."Employees"."First_Name" = 'Hercules'
-AND public."Employees"."Last_Name" LIKE 'W%';
+SELECT "Employees"."Last_Name",
+"Employees"."First_Name",
+"Employees"."Sex"
+FROM "Employees"
+WHERE "Employees"."First_Name" = 'Hercules'
+AND "Employees"."Last_Name" LIKE 'W%';
+
+--6. List all employees in the Sales department, 
+--including their employee number, last name, first name, 
+--and department name.
+
+SELECT 
+"Employees"."Emp_Number",
+"Employees"."Last_Name",
+"Employees"."First_Name",
+"Dept_Empt"."Dept_Number",
+"Department"."Dept_Name"
+FROM "Employees"
+LEFT JOIN "Dept_Empt"
+ON "Employees"."Emp_Number"="Dept_Empt"."Emp_Number"
+INNER JOIN "Department"
+ON "Department"."Dept_Number"="Dept_Empt"."Dept_Number"
+WHERE "Department"."Dept_Name"='Sales';
+
+--7. List all employees in the Sales and Development departments, including their employee number, last name, first name, and department name.
+
+--8. In descending order, list the frequency count of employee last names, i.e., how many employees share each last name.
+
